@@ -1,0 +1,20 @@
+app = "taskbot-web"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  API_URL = "https://taskbot-api.fly.dev"
+  WS_URL = "https://taskbot-api.fly.dev/ws"
+
+[http_service]
+  internal_port = 80
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1

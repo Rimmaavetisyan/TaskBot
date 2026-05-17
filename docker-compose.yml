@@ -75,6 +75,9 @@ services:
   frontend:
     build: ./frontend
     restart: unless-stopped
+    environment:
+      API_URL: http://api:8000
+      WS_URL: http://api:8000/ws
     ports:
       - '${FRONTEND_PORT:-80}:80'
     depends_on:
