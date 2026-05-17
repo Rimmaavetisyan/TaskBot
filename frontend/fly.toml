@@ -3,10 +3,8 @@ primary_region = "iad"
 
 [build]
   dockerfile = "Dockerfile"
-
-[env]
-  API_URL = "https://taskbot-api.fly.dev"
-  WS_URL = "https://taskbot-api.fly.dev/ws"
+  [build.args]
+    VITE_API_URL = "https://taskbot-4cgzkq.fly.dev"
 
 [http_service]
   internal_port = 80

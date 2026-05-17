@@ -8,9 +8,12 @@ export default function useWebSocket(onMessage) {
   const [connected, setConnected] = useState(false)
 
   const connect = useCallback(() => {
-    const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
     const token = encodeURIComponent(localStorage.getItem('workspaceToken') || '')
-    const ws = new WebSocket(`${proto}//${window.location.host}/ws?token=${token}`)
+    const apiUrl = import.meta.env.VITE_API_URL || ''
+    const wsBase = apiUrl
+      ? apiUrl.replace(/^http/, 'ws')
+      : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`
+    const ws = new WebSocket(`${wsBase}/ws?token=${token}`)
     wsRef.current = ws
 
     ws.onopen = () => setConnected(true)

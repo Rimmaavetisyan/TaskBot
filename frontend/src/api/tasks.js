@@ -1,4 +1,4 @@
-const BASE = '/api/tasks'
+const BASE = (import.meta.env.VITE_API_URL || '') + '/api/tasks'
 
 function getToken() {
   return localStorage.getItem('workspaceToken') || ''
