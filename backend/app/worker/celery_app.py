@@ -1,7 +1,8 @@
+import ssl
 from celery import Celery
 from ..config import settings
 
-_ssl = {"ssl_cert_reqs": "CERT_NONE"} if settings.REDIS_URL.startswith("rediss://") else {}
+_ssl = {"ssl_cert_reqs": ssl.CERT_NONE} if settings.REDIS_URL.startswith("rediss://") else {}
 
 celery_app = Celery(
     "worker",
