@@ -52,22 +52,24 @@ def _task_card(task) -> str:
     return f"📋 *{task.title[:80]}*\n{_status_line(status_val)}"
 
 
-def _task_keyboard(task_id: int, current_status: str) -> InlineKeyboardMarkup | None:
+def _task_keyboard(task_id: int, current_status: str) -> InlineKeyboardMarkup:
     idx = STATUS_ORDER.index(current_status)
-    buttons = []
+    status_row = []
     if idx > 0:
         prev_s = STATUS_ORDER[idx - 1]
-        buttons.append(InlineKeyboardButton(
+        status_row.append(InlineKeyboardButton(
             f"◀ {STATUS_LABEL[prev_s]}",
             callback_data=f"status:{task_id}:{prev_s}",
         ))
     if idx < len(STATUS_ORDER) - 1:
         next_s = STATUS_ORDER[idx + 1]
-        buttons.append(InlineKeyboardButton(
+        status_row.append(InlineKeyboardButton(
             f"{STATUS_LABEL[next_s]} ▶",
             callback_data=f"status:{task_id}:{next_s}",
         ))
-    return InlineKeyboardMarkup([buttons]) if buttons else None
+    delete_row = [InlineKeyboardButton("🗑 Delete", callback_data=f"delete:{task_id}")]
+    rows = ([status_row] if status_row else []) + [delete_row]
+    return InlineKeyboardMarkup(rows)
 
 
 # ── Commands ──────────────────────────────────────────────────────────────────
@@ -130,6 +132,27 @@ async def cmd_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     data = query.data or ""
+    user_id = str(query.from_user.id)
+
+    if data.startswith("delete:"):
+        task_id = int(data.split(":", 1)[1])
+        await query.answer("Deleting…")
+        db = SessionLocal()
+        try:
+            task = db.query(Task).filter(Task.id == task_id, Task.user_token == user_id).first()
+            if not task:
+                await query.edit_message_text("⚠️ Task not found.")
+                return
+            db.delete(task)
+            db.commit()
+            publish_sync("task_deleted", {"id": task_id}, token=user_id)
+            await query.edit_message_text("🗑 *Task deleted.*", parse_mode="Markdown")
+        except Exception as exc:
+            log.error("handle_callback delete error: %s", exc)
+            await query.edit_message_text("⚠️ Failed to delete task.")
+        finally:
+            db.close()
+        return
 
     if not data.startswith("status:"):
         await query.answer()
@@ -137,7 +160,6 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     _, task_id_str, new_status = data.split(":", 2)
     task_id = int(task_id_str)
-    user_id = str(query.from_user.id)
 
     await query.answer(f"Moving to {STATUS_LABEL[new_status]}…")
 

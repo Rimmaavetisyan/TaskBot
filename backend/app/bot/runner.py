@@ -18,7 +18,7 @@ def run():
     app.add_handler(CommandHandler("help", cmd_help))
     app.add_handler(CommandHandler("id", cmd_id))
     app.add_handler(CommandHandler("list", cmd_list))
-    app.add_handler(CallbackQueryHandler(handle_callback, pattern=r"^status:"))
+    app.add_handler(CallbackQueryHandler(handle_callback, pattern=r"^(status|delete):"))
     app.add_handler(MessageHandler(filters.VOICE, handle_voice))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
