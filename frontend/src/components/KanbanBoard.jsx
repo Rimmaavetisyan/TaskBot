@@ -37,13 +37,13 @@ export default function KanbanBoard({ tasks, setTasks }) {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
         {COLUMNS.map((col) => {
           const colTasks = byStatus(col.id)
           return (
-            <div key={col.id} className="flex flex-col">
+            <div key={col.id} className="flex flex-col bg-white dark:bg-slate-900 md:bg-transparent md:dark:bg-transparent rounded-2xl md:rounded-none border border-slate-200 dark:border-slate-800 md:border-0 p-4 md:p-0">
               {/* Column header */}
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-200 dark:border-slate-800">
+              <div className="flex items-center justify-between mb-3 md:mb-4 md:pb-3 md:border-b border-slate-200 dark:border-slate-800">
                 <span className="text-xs font-semibold tracking-widest uppercase text-slate-500 dark:text-slate-400">
                   {col.label}
                 </span>
@@ -57,7 +57,7 @@ export default function KanbanBoard({ tasks, setTasks }) {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`flex-1 flex flex-col gap-2.5 p-2 -mx-2 rounded-xl transition-colors min-h-[120px]
+                    className={`flex-1 flex flex-col gap-2.5 rounded-xl transition-colors min-h-[80px]
                       ${snapshot.isDraggingOver
                         ? 'bg-slate-100 dark:bg-slate-800/50'
                         : ''

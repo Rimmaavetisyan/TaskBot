@@ -244,7 +244,7 @@ export default function App() {
       </header>
 
       {/* Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-5 sm:py-8 pb-10 sm:pb-12">
         {loading ? (
           <div className="flex items-center justify-center py-32">
             <div className="flex items-center gap-2.5 text-slate-400 dark:text-slate-500 text-sm">
