@@ -174,7 +174,7 @@ export default function App() {
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-2">
           {/* Logo */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 min-w-0">
             <div className="w-7 h-7 bg-indigo-600 rounded-md flex items-center justify-center">
               <CheckSquare size={14} className="text-white" strokeWidth={2.5} />
             </div>
@@ -223,7 +223,7 @@ export default function App() {
             <button
               onClick={() => setShowModal(true)}
               className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium rounded-md transition-colors
-                px-3 py-1.5 text-sm"
+                px-3 py-1.5 text-sm shrink-0 whitespace-nowrap"
             >
               <Plus size={15} strokeWidth={2.5} />
               <span>{t.newTask}</span>
