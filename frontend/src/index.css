@@ -10,6 +10,11 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   padding-bottom: env(safe-area-inset-bottom);
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {

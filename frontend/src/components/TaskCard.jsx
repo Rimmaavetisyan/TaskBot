@@ -60,7 +60,7 @@ export default function TaskCard({ task, onUpdate, onDelete }) {
           </p>
           <button
             onClick={remove}
-            className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 text-slate-300 dark:text-slate-600 hover:text-red-500 dark:hover:text-red-400 shrink-0 mt-0.5"
+            className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity p-0.5 text-slate-300 dark:text-slate-600 hover:text-red-500 dark:hover:text-red-400 shrink-0 mt-0.5"
           >
             <Trash2 size={13} />
           </button>

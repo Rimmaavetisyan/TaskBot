@@ -37,11 +37,11 @@ export default function KanbanBoard({ tasks, setTasks }) {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
         {COLUMNS.map((col) => {
           const colTasks = byStatus(col.id)
           return (
-            <div key={col.id} className="flex flex-col bg-white dark:bg-slate-900 md:bg-transparent md:dark:bg-transparent rounded-2xl md:rounded-none border border-slate-200 dark:border-slate-800 md:border-0 p-4 md:p-0">
+            <div key={col.id} className="flex flex-col bg-white dark:bg-slate-900 md:bg-transparent md:dark:bg-transparent rounded-2xl md:rounded-none border border-slate-200 dark:border-slate-800 md:border-0 p-5 md:p-0">
               {/* Column header */}
               <div className="flex items-center justify-between mb-3 md:mb-4 md:pb-3 md:border-b border-slate-200 dark:border-slate-800">
                 <span className="text-xs font-semibold tracking-widest uppercase text-slate-500 dark:text-slate-400">
