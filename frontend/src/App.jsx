@@ -226,7 +226,7 @@ export default function App() {
                 px-3 py-1.5 text-sm"
             >
               <Plus size={15} strokeWidth={2.5} />
-              <span className="hidden sm:inline">{t.newTask}</span>
+              <span>{t.newTask}</span>
             </button>
           </div>
         </div>
