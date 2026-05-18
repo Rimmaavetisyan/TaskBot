@@ -37,7 +37,7 @@ export default function KanbanBoard({ tasks, setTasks }) {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         {COLUMNS.map((col) => {
           const colTasks = byStatus(col.id)
           return (

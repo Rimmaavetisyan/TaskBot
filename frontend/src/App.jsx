@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Plus, Wifi, WifiOff, LayoutGrid, List, CheckSquare, Sun, Moon, Copy, Check, Pencil } from 'lucide-react'
+import { Plus, LayoutGrid, List, CheckSquare, Sun, Moon, Copy, Check, Pencil } from 'lucide-react'
 import KanbanBoard from './components/KanbanBoard'
 import CreateTaskModal from './components/CreateTaskModal'
 import TaskCard from './components/TaskCard'
@@ -18,7 +18,7 @@ function LangSwitcher() {
         <button
           key={l.code}
           onClick={() => setLang(l.code)}
-          className={`px-2.5 py-1 text-xs font-medium tracking-wide transition-colors
+          className={`px-2 sm:px-2.5 py-1 text-xs font-medium tracking-wide transition-colors
             ${i > 0 ? 'border-l border-slate-200 dark:border-slate-700' : ''}
             ${lang === l.code
               ? 'bg-indigo-600 text-white'
@@ -81,7 +81,7 @@ function WorkspacePanel() {
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') confirmEdit(); if (e.key === 'Escape') setEditing(false) }}
           onBlur={confirmEdit}
-          className="h-7 w-48 px-2 text-xs rounded-md border border-indigo-500
+          className="h-7 w-36 sm:w-48 px-2 text-xs rounded-md border border-indigo-500
             bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100
             focus:outline-none focus:ring-1 focus:ring-indigo-500"
           placeholder={t.workspaceId}
@@ -91,8 +91,8 @@ function WorkspacePanel() {
   }
 
   return (
-    <div className="hidden sm:flex items-center gap-1 rounded-md border border-slate-200 dark:border-slate-700 px-2 py-1">
-      <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wide mr-0.5">
+    <div className="flex items-center gap-1 rounded-md border border-slate-200 dark:border-slate-700 px-2 py-1">
+      <span className="hidden sm:block text-[10px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wide mr-0.5">
         {t.workspace}
       </span>
       <span className="text-xs font-mono text-slate-600 dark:text-slate-400">{short}</span>
@@ -114,15 +114,15 @@ function StatsBar({ tasks }) {
     return acc
   }, {})
   const items = [
-    { label: t.total,      value: tasks.length,         cls: 'text-slate-700 dark:text-slate-200' },
-    { label: t.pending,    value: counts.pending || 0,   cls: 'text-amber-600 dark:text-amber-400' },
+    { label: t.total,      value: tasks.length,            cls: 'text-slate-700 dark:text-slate-200' },
+    { label: t.pending,    value: counts.pending || 0,      cls: 'text-amber-600 dark:text-amber-400' },
     { label: t.inProgress, value: counts.in_progress || 0, cls: 'text-blue-600 dark:text-blue-400' },
-    { label: t.completed,  value: counts.completed || 0, cls: 'text-emerald-600 dark:text-emerald-400' },
+    { label: t.completed,  value: counts.completed || 0,   cls: 'text-emerald-600 dark:text-emerald-400' },
   ]
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex items-center gap-3 sm:gap-5 overflow-x-auto">
       {items.map(({ label, value, cls }, i) => (
-        <div key={i} className="flex items-center gap-1.5">
+        <div key={i} className="flex items-center gap-1.5 shrink-0">
           {i > 0 && <span className="w-px h-3 bg-slate-200 dark:bg-slate-700" />}
           <span className="text-xs text-slate-400 dark:text-slate-500">{label}</span>
           <span className={`text-xs font-semibold tabular-nums ${cls}`}>{value}</span>
@@ -140,7 +140,6 @@ export default function App() {
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  // Apply saved theme on mount
   useTheme()
 
   useEffect(() => {
@@ -173,9 +172,9 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       {/* Top nav */}
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between gap-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-2">
           {/* Logo */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <div className="w-7 h-7 bg-indigo-600 rounded-md flex items-center justify-center">
               <CheckSquare size={14} className="text-white" strokeWidth={2.5} />
             </div>
@@ -188,8 +187,8 @@ export default function App() {
           </div>
 
           {/* Controls */}
-          <div className="flex items-center gap-2 flex-wrap justify-end">
-            {/* Live indicator */}
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {/* Live indicator — desktop only */}
             <div className={`hidden sm:flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border transition-colors
               ${connected
                 ? 'text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900 bg-emerald-50 dark:bg-emerald-950/60'
@@ -200,12 +199,15 @@ export default function App() {
               {connected ? t.live : t.offline}
             </div>
 
+            {/* Live dot — mobile only */}
+            <span className={`sm:hidden w-2 h-2 rounded-full shrink-0 ${connected ? 'bg-emerald-500' : 'bg-slate-400 dark:bg-slate-600'}`} />
+
             <WorkspacePanel />
             <LangSwitcher />
             <ThemeToggle />
 
             {/* View toggle */}
-            <div className="flex rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <div className="hidden sm:flex rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden">
               <button onClick={() => setView('kanban')} className={`${btnBase} ${view === 'kanban' ? btnActive : btnIdle}`} title="Kanban">
                 <LayoutGrid size={14} />
               </button>
@@ -214,24 +216,35 @@ export default function App() {
               </button>
             </div>
 
+            {/* New Task */}
             <button
               onClick={() => setShowModal(true)}
-              className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white text-sm font-medium px-3.5 py-1.5 rounded-md transition-colors"
+              className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium rounded-md transition-colors
+                px-3 py-1.5 text-sm"
             >
               <Plus size={15} strokeWidth={2.5} />
-              <span>{t.newTask}</span>
+              <span className="hidden sm:inline">{t.newTask}</span>
             </button>
           </div>
         </div>
 
-        {/* Stats strip */}
-        <div className="max-w-7xl mx-auto px-6 pb-2.5">
+        {/* Stats + mobile view toggle */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-2.5 flex items-center justify-between gap-3">
           <StatsBar tasks={tasks} />
+          {/* View toggle — mobile only */}
+          <div className="flex sm:hidden rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden shrink-0">
+            <button onClick={() => setView('kanban')} className={`${btnBase} ${view === 'kanban' ? btnActive : btnIdle}`} title="Kanban">
+              <LayoutGrid size={14} />
+            </button>
+            <button onClick={() => setView('list')} className={`${btnBase} ${view === 'list' ? btnActive : btnIdle}`} title="List">
+              <List size={14} />
+            </button>
+          </div>
         </div>
       </header>
 
       {/* Content */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {loading ? (
           <div className="flex items-center justify-center py-32">
             <div className="flex items-center gap-2.5 text-slate-400 dark:text-slate-500 text-sm">
