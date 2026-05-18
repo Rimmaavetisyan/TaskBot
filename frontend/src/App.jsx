@@ -226,7 +226,7 @@ export default function App() {
                 px-3 py-1.5 text-sm shrink-0 whitespace-nowrap"
             >
               <Plus size={15} strokeWidth={2.5} />
-              <span>{t.newTask}</span>
+              <span className="hidden min-[900px]:inline">{t.newTask}</span>
             </button>
           </div>
         </div>
