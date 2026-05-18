@@ -187,8 +187,8 @@ export default function App() {
           </div>
 
           {/* Controls */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            {/* Live indicator — desktop only */}
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-nowrap">
+            {/* Live indicator — sm+ only */}
             <div className={`hidden sm:flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border transition-colors
               ${connected
                 ? 'text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900 bg-emerald-50 dark:bg-emerald-950/60'
@@ -202,8 +202,11 @@ export default function App() {
             {/* Live dot — mobile only */}
             <span className={`sm:hidden w-2 h-2 rounded-full shrink-0 ${connected ? 'bg-emerald-500' : 'bg-slate-400 dark:bg-slate-600'}`} />
 
-            <WorkspacePanel />
-            <LangSwitcher />
+            {/* Workspace + Lang — hidden on mobile */}
+            <div className="hidden sm:flex items-center gap-1.5">
+              <WorkspacePanel />
+              <LangSwitcher />
+            </div>
             <ThemeToggle />
 
             {/* View toggle */}
@@ -228,17 +231,24 @@ export default function App() {
           </div>
         </div>
 
-        {/* Stats + mobile view toggle */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-2.5 flex items-center justify-between gap-3">
+        {/* Stats + mobile controls */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-2.5 flex items-center gap-2">
           <StatsBar tasks={tasks} />
-          {/* View toggle — mobile only */}
-          <div className="flex sm:hidden rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden shrink-0">
-            <button onClick={() => setView('kanban')} className={`${btnBase} ${view === 'kanban' ? btnActive : btnIdle}`} title="Kanban">
-              <LayoutGrid size={14} />
-            </button>
-            <button onClick={() => setView('list')} className={`${btnBase} ${view === 'list' ? btnActive : btnIdle}`} title="List">
-              <List size={14} />
-            </button>
+          <div className="flex items-center gap-1.5 ml-auto shrink-0">
+            {/* Workspace + Lang — mobile only */}
+            <div className="flex sm:hidden items-center gap-1.5">
+              <LangSwitcher />
+              <WorkspacePanel />
+            </div>
+            {/* View toggle — mobile only */}
+            <div className="flex sm:hidden rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden">
+              <button onClick={() => setView('kanban')} className={`${btnBase} ${view === 'kanban' ? btnActive : btnIdle}`} title="Kanban">
+                <LayoutGrid size={14} />
+              </button>
+              <button onClick={() => setView('list')} className={`${btnBase} ${view === 'list' ? btnActive : btnIdle}`} title="List">
+                <List size={14} />
+              </button>
+            </div>
           </div>
         </div>
       </header>
