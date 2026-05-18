@@ -209,16 +209,6 @@ export default function App() {
             </div>
             <ThemeToggle />
 
-            {/* View toggle */}
-            <div className="hidden sm:flex rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden">
-              <button onClick={() => setView('kanban')} className={`${btnBase} ${view === 'kanban' ? btnActive : btnIdle}`} title="Kanban">
-                <LayoutGrid size={14} />
-              </button>
-              <button onClick={() => setView('list')} className={`${btnBase} ${view === 'list' ? btnActive : btnIdle}`} title="List">
-                <List size={14} />
-              </button>
-            </div>
-
             {/* New Task */}
             <button
               onClick={() => setShowModal(true)}
@@ -231,24 +221,34 @@ export default function App() {
           </div>
         </div>
 
-        {/* Stats + mobile controls */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-2.5 flex items-center gap-2">
+        {/* Stats row — full width on mobile */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-1.5 sm:pb-0">
           <StatsBar tasks={tasks} />
-          <div className="flex items-center gap-1.5 ml-auto shrink-0">
-            {/* Workspace + Lang — mobile only */}
-            <div className="flex sm:hidden items-center gap-1.5">
-              <LangSwitcher />
-              <WorkspacePanel />
-            </div>
-            {/* View toggle — mobile only */}
-            <div className="flex sm:hidden rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden">
-              <button onClick={() => setView('kanban')} className={`${btnBase} ${view === 'kanban' ? btnActive : btnIdle}`} title="Kanban">
-                <LayoutGrid size={14} />
-              </button>
-              <button onClick={() => setView('list')} className={`${btnBase} ${view === 'list' ? btnActive : btnIdle}`} title="List">
-                <List size={14} />
-              </button>
-            </div>
+        </div>
+
+        {/* Mobile-only controls row: workspace + lang + view toggle */}
+        <div className="flex sm:hidden max-w-7xl mx-auto px-4 pb-2.5 pt-1.5 items-center gap-1.5">
+          <LangSwitcher />
+          <WorkspacePanel />
+          <div className="ml-auto flex rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <button onClick={() => setView('kanban')} className={`${btnBase} ${view === 'kanban' ? btnActive : btnIdle}`} title="Kanban">
+              <LayoutGrid size={14} />
+            </button>
+            <button onClick={() => setView('list')} className={`${btnBase} ${view === 'list' ? btnActive : btnIdle}`} title="List">
+              <List size={14} />
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop-only controls row: view toggle */}
+        <div className="hidden sm:flex max-w-7xl mx-auto px-6 pb-2.5 justify-end">
+          <div className="flex rounded-md border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <button onClick={() => setView('kanban')} className={`${btnBase} ${view === 'kanban' ? btnActive : btnIdle}`} title="Kanban">
+              <LayoutGrid size={14} />
+            </button>
+            <button onClick={() => setView('list')} className={`${btnBase} ${view === 'list' ? btnActive : btnIdle}`} title="List">
+              <List size={14} />
+            </button>
           </div>
         </div>
       </header>
